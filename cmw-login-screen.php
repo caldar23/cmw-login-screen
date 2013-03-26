@@ -3,7 +3,7 @@
 Plugin Name: CloneMyWebsite Login Screen
 Plugin URI: http://www.clonemywebsite.com/
 Description: This handy plugin allows you to customize your login screen. This is great if you're managing a membership and you want to brand the wp-login.php page to your membership.
-Version: 1.0.0
+Version: 1.1.0
 Author: Andrew Myers
 Author URI: http://www.clonemywebsite.com
 License: GPL2
@@ -205,10 +205,31 @@ function cmw_login_screen_login_footer_message() {
 //---- End footer message
 
 
+
+
+//---- Remove the admin bar for non-admins
+
+function cmw_login_screen_hide_admin_bar() { 
+	if ( is_admin() )
+		return FALSE;
+	
+	elseif ( current_user_can( 'edit_posts' ) )
+		return TRUE;
+		
+	else
+		return FALSE;
+}
+
+
+
+
+
+
 // ACTIONS MEAN GOOOOOOO! Filters too.
 add_action( 'login_enqueue_scripts', 'cmw_login_screen_login_logo' );
 add_filter( 'login_headerurl', 'cmw_login_screen_login_logo_url' );
 add_filter( 'login_headertitle', 'cmw_login_screen_login_logo_title' );
 add_filter( 'login_message', 'cmw_login_screen_login_logo_message' );
 add_action( 'login_footer', 'cmw_login_screen_login_footer_message' );
+add_filter( 'show_admin_bar', 'cmw_login_screen_hide_admin_bar' ); 
 ?>
