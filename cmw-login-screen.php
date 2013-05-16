@@ -3,12 +3,16 @@
 Plugin Name: CloneMyWebsite Login Screen
 Plugin URI: http://www.clonemywebsite.com/
 Description: This handy plugin allows you to customize your login screen. This is great if you're managing a membership and you want to brand the wp-login.php page to your membership.
-Version: 1.1.0
+Version: 1.2.0
 Author: Andrew Myers
 Author URI: http://www.clonemywebsite.com
 License: GPL2
 */
 
+/* Notes:
+	1.2.0 - Now has the option to manually override height and width for the logo.
+
+*/
 
 // Activation of the plugin
 register_activation_hook( __FILE__, 'cmw_login_screen_activation' );
@@ -93,6 +97,15 @@ function cmw_login_screen_logo_callback() {
         <input type='button' id="cmw_login_screen_logo_cancel" class="button cancel-upload _show-logo-uploader" value='Back'/></br>
 
     </div>
+<div id="advanced" class="_advanced" style="height:105px;  <?php echo $show ;?>">
+    	<p>Does it look squished on the login page? <a>Click here for some advanced settings.</a></p>
+    </div>
+    <div id="advanced-settings" style="height:105px; <?php echo $hide ;?>">
+		<p><label name='cmw_login_screen_options[advanced]'> Use manual dimensions? </label> <input type='checkbox' id='cmw_login_screen_advanced' name='cmw_login_screen_options[advanced]' <?php if ( $options["advanced"] === "Advanced") echo 'checked'; ?> value='Advanced'/></p>
+		<p><label name='cmw_login_screen_options[width]'> Width </label> <input type='text' id='cmw_login_screen_width' name='cmw_login_screen_options[width]' value='<?php echo $options["width"]; ?>'/><br />
+        <label name='cmw_login_screen_options[height]'> Height </label><input type='text' id='cmw_login_screen_height' name='cmw_login_screen_options[height]' value='<?php echo $options["height"]; ?>'/></p>
+
+    </div>
 <?php
 };
 
@@ -152,10 +165,16 @@ function cmw_login_screen_login_logo() {
 
 	$options = get_option( 'cmw_login_screen_options' ); 
 	$logo = esc_url($options["logo"]);
+	
+	$width = $options["width"] . "px";
+	$height = $options["height"]. "px";
 ?>
     <style type="text/css">
         body.login div#login h1 a {
             background-image: url('<?php echo $logo; ?>');	
+			<?php if ( $options["advanced"] === "Advanced") { ?>
+			background-size:<?php echo $width; ?> <?php echo $height; ?>;
+			<?php } ?>
         }
     </style>
 <?php 

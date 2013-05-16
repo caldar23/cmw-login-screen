@@ -58,6 +58,12 @@ jQuery(document).ready(function(){
 		jQuery( '#' + expandDivId ).toggle();
 		jQuery('#logo-uploader').toggle();
 	});
+	jQuery("._advanced").click(function(){
+		var expandDivId = 'advanced';
+		
+		jQuery( '#' + expandDivId ).toggle();
+		jQuery('#advanced-settings').toggle();
+	});
 });
 
 //--- End hide and show
