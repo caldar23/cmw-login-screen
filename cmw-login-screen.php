@@ -242,7 +242,30 @@ function cmw_login_screen_hide_admin_bar() {
 
 
 
+// Short code function to pull pull a login box. Display's a welcome message (under variable alreadyloggedin) if you're already logged in.
+function login_box_shortcode( $atts ) { // v1.5 Using the short code [login_box], display the login box. If not logged in, display default.
+	
+	// Let's declare some variables
 
+	global $user_identity ; // Please let me use the users' name,
+    get_currentuserinfo() ; // I think it's in here...
+	
+	$loginform = shortcode_atts( array( 'echo' => false, 'redirect' => home_url() ), $atts ); 
+	$defaultsiteurl = site_url( $_SERVER['REQUEST_URI'] );
+	$alreadyloggedin = '<p>Welcome, '.$user_identity.'! <br /><a href="'.site_url().'/customer_center/#account_info" title="Profile">Account Info<br /><a href="'.wp_logout_url().'" title="Logout">Logout</a></p>' ; // Um... This is messy. I wonder if there's an easier way, a cleaner way to stick a bunch of html and php intermixed into a variable. 
+	$notloggedin = wp_login_form( $loginform ).'<div class="login-recovery"><a href="'.wp_lostpassword_url().'" title="Lost Password">Lost Password</a></div>' ;
+	
+	//extract( shortcode_atts( array( 'echo' => false, 'redirect' => home_url() ), $atts ) );
+	
+	
+	
+	// Let's get this thing rolling...
+	if ( is_user_logged_in() ) 
+	        return $alreadyloggedin;
+	 
+	    return $notloggedin ;
+}
+add_shortcode( 'login_box', 'login_box_shortcode' );
 
 // ACTIONS MEAN GOOOOOOO! Filters too.
 add_action( 'login_enqueue_scripts', 'cmw_login_screen_login_logo' );
