@@ -3,7 +3,7 @@
 Plugin Name: CloneMyWebsite Login Screen
 Plugin URI: http://www.clonemywebsite.com/
 Description: This handy plugin allows you to customize your login screen. This is great if you're managing a membership and you want to brand the wp-login.php page to your membership.
-Version: 1.2.0
+Version: 1.3.0
 Author: Andrew Myers
 Author URI: http://www.clonemywebsite.com
 License: GPL2
@@ -11,6 +11,7 @@ License: GPL2
 
 /* Notes:
 	1.2.0 - Now has the option to manually override height and width for the logo.
+	1.3.0 - Added [login_box] short code
 
 */
 
@@ -239,9 +240,6 @@ function cmw_login_screen_hide_admin_bar() {
 		return FALSE;
 }
 
-
-
-
 // Short code function to pull pull a login box. Display's a welcome message (under variable alreadyloggedin) if you're already logged in.
 function login_box_shortcode( $atts ) { // v1.5 Using the short code [login_box], display the login box. If not logged in, display default.
 	
@@ -266,6 +264,9 @@ function login_box_shortcode( $atts ) { // v1.5 Using the short code [login_box]
 	    return $notloggedin ;
 }
 add_shortcode( 'login_box', 'login_box_shortcode' );
+
+
+
 
 // ACTIONS MEAN GOOOOOOO! Filters too.
 add_action( 'login_enqueue_scripts', 'cmw_login_screen_login_logo' );
